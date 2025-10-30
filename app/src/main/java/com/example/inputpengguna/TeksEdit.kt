@@ -1,26 +1,53 @@
 package com.example.inputpengguna
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.material3.Button
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import com.example.inputpengguna.R
 
-@composable
-fun formDataDiri(modifier: Modifier
-){
-    //
-    var textNama by remember { mutableStateOf(value="")}
-    var textAlamat by remember { mutableStateOf(value="")}
-    var textJK by remember { mutableStateOf(value="")}
+@Composable
+fun formDataDiri(modifier: Modifier = Modifier) {
+    // State untuk input pengguna
+    var textNama by remember { mutableStateOf("") }
+    var textAlamat by remember { mutableStateOf("") }
+    var textJK by remember { mutableStateOf("") }
 
-    //
-    var nama by remember { mutableStateOf(value="")}
-    var alamat by remember { mutableStateOf(value="")}
-    var jenis by remember { mutableStateOf(value="")}
+    // State untuk menampilkan data setelah submit
+    var nama by remember { mutableStateOf("") }
+    var alamat by remember { mutableStateOf("") }
+    var jenis by remember { mutableStateOf("") }
 
-    val gender:List<String> = listOf("Laki-laki","Perempuan")
+    val gender: List<String> = listOf("Laki-laki", "Perempuan")
 
-    column(modifier = Modifier.padding(top = 50.dp),
+    Column(
+        modifier = modifier.padding(start = 16.dp, end = 16.dp, top = 50.dp),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally) {
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         OutlinedTextField(
             value = textNama,
             singleLine = true,
@@ -31,21 +58,25 @@ fun formDataDiri(modifier: Modifier
                 textNama = it
             }
         )
-        Row {
+
+        Row(modifier = Modifier.padding(vertical = 8.dp)) {
             gender.forEach { item ->
                 Row(
                     modifier = Modifier.selectable(
-                        selected = { textJK == item },
-                    ), verticalAlignment = Alignment.CenterVertically {
+                        selected = (textJK == item),
+                        onClick = { textJK = item }
+                    ),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     RadioButton(
-                        selected = textJK == item,
-                        onClick = {
-                            textJK = item
-                        })
+                        selected = (textJK == item),
+                        onClick = { textJK = item }
+                    )
                     Text(text = item)
                 }
             }
         }
+
         OutlinedTextField(
             value = textAlamat,
             singleLine = true,
@@ -58,17 +89,16 @@ fun formDataDiri(modifier: Modifier
 
         HorizontalDivider(
             modifier = Modifier.padding(
-                bottom = dimensionResource( id = R.dimen.padding_medium),
-                top = dimensionResource(
-                id = R.dimen.padding_medium
-            )),
-            thickness = dimensionResource(id = R.dimen.divider_tipis)
+                bottom = dimensionResource(id = R.dimen.padding_medium),
+                top = dimensionResource(id = R.dimen.padding_medium)
+            ),
+            thickness = dimensionResource(id = R.dimen.divider_tipis),
             color = Color.DarkGray
         )
+
         Button(
-            modifier = Modifier.fillMaxWidth(fraction = 1f),
-            //
-            enabled = textAlamat.isNotEmpty(),
+            modifier = Modifier.fillMaxWidth(fraction = 0.7f),
+            enabled = textAlamat.isNotEmpty() && textNama.isNotEmpty() && textJK.isNotEmpty(),
             onClick = {
                 nama = textNama
                 jenis = textJK
@@ -80,25 +110,24 @@ fun formDataDiri(modifier: Modifier
 
         HorizontalDivider(
             modifier = Modifier.padding(
-                bottom = dimensionResource( id = R.dimen.padding_medium),
-                top = dimensionResource(
-                    id = R.dimen.padding_medium
-                )),
-                thickness = dimensionResource(1dp),
-                color = Color.DarkGray
-            )
+                bottom = dimensionResource(id = R.dimen.padding_medium),
+                top = dimensionResource(id = R.dimen.padding_medium)
+            ),
+            thickness = 1.dp,
+            color = Color.DarkGray // Koma yang sebelumnya hilang sudah ditambahkan
+        )
 
-        ElevatedCard (
+        ElevatedCard(
             elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
             colors = CardDefaults.cardColors(containerColor = Color.Black),
             modifier = Modifier
                 .height(100.dp)
                 .width(300.dp)
         ) {
-            Column (modifier = Modifier.padding(horizontal = 5.dp, vertical = 15.dp),){
-                Text(text = "Nama   : "+nama, color = Color.White )
-                Text(text = "Gender : "+jenis, color = Color.White )
-                Text(text = "Alamat : "+alamat, color = Color.White)
+            Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp)) {
+                Text(text = "Nama   : $nama", color = Color.White)
+                Text(text = "Gender : $jenis", color = Color.White)
+                Text(text = "Alamat : $alamat", color = Color.White)
             }
         }
     }
