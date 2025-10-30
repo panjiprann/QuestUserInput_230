@@ -1,5 +1,6 @@
 package com.example.inputpengguna
 
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.ui.Modifier
 
 @composable
@@ -19,7 +20,20 @@ fun formDataDiri(modifier: Modifier
 
     column(modifier = Modifier.padding(top = 50.dp),
         verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally)
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        OutlinedTextField(
+            value = textNama,
+            singleLine = true,
+            shape = MaterialTheme.shapes.large,
+            modifier = Modifier.Width(width = 250.dp),
+            label = { Text(text = "Nama Lengkap") },
+            onValueChange = {
+                textNama = it
+            }
+        )
+            }
+
+    }
 
 
 
