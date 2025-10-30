@@ -36,10 +36,9 @@ fun formDataDiri(modifier: Modifier
                 Row(
                     modifier = Modifier.selectable(
                         selected = { textJK == item },
-                    ), verticalAlignment = Alignment.CenterVertically
-                ) {
+                    ), verticalAlignment = Alignment.CenterVertically {
                     RadioButton(
-                        selected = { textJK == item },
+                        selected = textJK == item,
                         onClick = {
                             textJK = item
                         })
