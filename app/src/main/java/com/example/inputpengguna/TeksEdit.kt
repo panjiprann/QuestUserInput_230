@@ -25,7 +25,7 @@ fun formDataDiri(modifier: Modifier
             value = textNama,
             singleLine = true,
             shape = MaterialTheme.shapes.large,
-            modifier = Modifier.Width(width = 250.dp),
+            modifier = Modifier.width(width = 250.dp),
             label = { Text(text = "Nama Lengkap") },
             onValueChange = {
                 textNama = it
