@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -34,39 +35,36 @@ fun FormulirPendaftaran(modifier: Modifier = Modifier) {
     val listJenisKelamin = listOf("Laki-laki", "Perempuan")
     val listStatus = listOf("Janda", "Lajang", "Duda")
 
+    // Latar belakang utama
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(LightPurple) // Latar belakang utama ungu muda
+            .background(LightPurple)
+            .padding(24.dp), // Padding utama untuk memberi jarak dari tepi layar
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // --- HEADER ---
-        Box(
+        Text(
+            text = "Formulir Pendaftaran",
+            color = Color.White,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp) // Beri padding agar tidak menempel ke tepi
-                .padding(top = 24.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Formulir Pendaftaran",
-                color = Color.White,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(DarkPurple, shape = RoundedCornerShape(16.dp))
-                    .padding(vertical = 20.dp)
-            )
-        }
+                // Bentuk header dengan sudut atas bulat, bawah siku
+                .background(DarkPurple, shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
+                .padding(vertical = 20.dp)
+        )
 
-        // --- WADAH FORM PUTIH (PERBAIKAN PELETAKAN) ---
+        // --- WADAH FORM PUTIH ---
+        // Diletakkan langsung di bawah header tanpa spasi
         Column(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(24.dp) // Padding untuk memberi jarak dari tepi
-                .clip(RoundedCornerShape(16.dp)) // Membuat sudut rounded
-                .background(Color.White) // Memberi latar belakang putih
-                .padding(horizontal = 24.dp, vertical = 32.dp) // Padding di dalam wadah putih
+                .fillMaxWidth()
+                // Bentuk card dengan sudut bawah bulat, atas siku agar menyatu dengan header
+                .background(Color.White, shape = RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
+                .padding(horizontal = 24.dp, vertical = 32.dp)
         ) {
             // NAMA LENGKAP
             FormTextField(
@@ -106,7 +104,7 @@ fun FormulirPendaftaran(modifier: Modifier = Modifier) {
                 onValueChange = { alamat = it }
             )
 
-            Spacer(modifier = Modifier.weight(1f)) // Mendorong tombol ke bawah
+            Spacer(modifier = Modifier.height(32.dp)) // Beri jarak sedikit lebih banyak sebelum tombol
 
             // --- TOMBOL SUBMIT ---
             Button(
@@ -114,7 +112,7 @@ fun FormulirPendaftaran(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                shape = CircleShape, // Bentuk tombol lebih bulat
+                shape = CircleShape,
                 colors = ButtonDefaults.buttonColors(containerColor = DarkPurple)
             ) {
                 Text(text = "Submit", fontSize = 18.sp, fontWeight = FontWeight.Bold)
