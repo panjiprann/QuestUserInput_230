@@ -4,13 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,32 +18,25 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             InputPenggunaTheme {
-                // Surface adalah container yang baik untuk latar belakang aplikasi
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    // Panggil Composable utama Anda di sini
-                    formDataDiri(modifier = Modifier.fillMaxSize())
+                    // 1. Panggil Composable yang benar di sini
+                    FormulirPendaftaran()
                 }
-
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+// 2. Blok setContent yang salah di bawah sudah dihapus
+//    Fungsi preview di bawah ini opsional, bisa dihapus jika tidak perlu
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun FormulirPendaftaranPreview() { // Nama diubah agar lebih deskriptif
     InputPenggunaTheme {
-        Greeting("Android")
+        FormulirPendaftaran()
     }
 }
