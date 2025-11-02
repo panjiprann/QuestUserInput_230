@@ -11,15 +11,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 // Warna kustom sesuai gambar
-val LightPurple = Color(0xFFE9E4F0) // Warna ungu muda yang lebih mendekati gambar
-val DarkPurple = Color(0xFF4B0082) // Warna Indigo/Ungu Tua yang lebih pekat
-val LabelColor = Color.Black.copy(alpha = 0.6f) // Warna untuk teks label
+val LightPurple = Color(0xFFE9E4F0)
+val DarkPurple = Color(0xFF4B0082)
+val LabelColor = Color.Black.copy(alpha = 0.6f)
 
 @Composable
 fun FormulirPendaftaran(modifier: Modifier = Modifier) {
@@ -36,84 +37,95 @@ fun FormulirPendaftaran(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(LightPurple) // Latar belakang utama
-            .padding(24.dp) // Padding sedikit lebih besar agar tidak terlalu mepet
+            .background(LightPurple) // Latar belakang utama ungu muda
     ) {
         // --- HEADER ---
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(DarkPurple, shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)) // Sudut hanya di atas
-                .padding(vertical = 20.dp),
+                .padding(horizontal = 24.dp) // Beri padding agar tidak menempel ke tepi
+                .padding(top = 24.dp),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = "Formulir Pendaftaran",
                 color = Color.White,
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(DarkPurple, shape = RoundedCornerShape(16.dp))
+                    .padding(vertical = 20.dp)
             )
         }
 
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // --- FORM FIELDS ---
-
-        // NAMA LENGKAP
-        FormTextField(
-            label = "NAMA LENGKAP",
-            value = namaLengkap,
-            placeholder = "Isian nama lengkap",
-            onValueChange = { namaLengkap = it }
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        // JENIS KELAMIN
-        FormRadioGroup(
-            label = "JENIS KELAMIN",
-            options = listJenisKelamin,
-            selectedOption = jenisKelamin,
-            onOptionSelected = { jenisKelamin = it }
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        // STATUS PERKAWINAN
-        FormRadioGroup(
-            label = "STATUS PERKAWINAN",
-            options = listStatus,
-            selectedOption = statusPerkawinan,
-            onOptionSelected = { statusPerkawinan = it }
-        )
-
-        Spacer(modifier = Modifier.height(20.dp))
-
-        // ALAMAT
-        FormTextField(
-            label = "ALAMAT",
-            value = alamat,
-            placeholder = "Alamat",
-            onValueChange = { alamat = it }
-        )
-
-        Spacer(modifier = Modifier.weight(1f)) // Mendorong tombol ke bawah
-
-        // --- TOMBOL SUBMIT ---
-        Button(
-            onClick = { /* TODO: Logika untuk submit data */ },
+        // --- WADAH FORM PUTIH (PERBAIKAN PELETAKAN) ---
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(50.dp),
-            shape = CircleShape, // Bentuk tombol lebih bulat
-            colors = ButtonDefaults.buttonColors(containerColor = DarkPurple)
+                .fillMaxSize()
+                .padding(24.dp) // Padding untuk memberi jarak dari tepi
+                .clip(RoundedCornerShape(16.dp)) // Membuat sudut rounded
+                .background(Color.White) // Memberi latar belakang putih
+                .padding(horizontal = 24.dp, vertical = 32.dp) // Padding di dalam wadah putih
         ) {
-            Text(text = "Submit", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            // NAMA LENGKAP
+            FormTextField(
+                label = "NAMA LENGKAP",
+                value = namaLengkap,
+                placeholder = "Isian nama lengkap",
+                onValueChange = { namaLengkap = it }
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // JENIS KELAMIN
+            FormRadioGroup(
+                label = "JENIS KELAMIN",
+                options = listJenisKelamin,
+                selectedOption = jenisKelamin,
+                onOptionSelected = { jenisKelamin = it }
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // STATUS PERKAWINAN
+            FormRadioGroup(
+                label = "STATUS PERKAWINAN",
+                options = listStatus,
+                selectedOption = statusPerkawinan,
+                onOptionSelected = { statusPerkawinan = it }
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            // ALAMAT
+            FormTextField(
+                label = "ALAMAT",
+                value = alamat,
+                placeholder = "Alamat",
+                onValueChange = { alamat = it }
+            )
+
+            Spacer(modifier = Modifier.weight(1f)) // Mendorong tombol ke bawah
+
+            // --- TOMBOL SUBMIT ---
+            Button(
+                onClick = { /* TODO: Logika untuk submit data */ },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = CircleShape, // Bentuk tombol lebih bulat
+                colors = ButtonDefaults.buttonColors(containerColor = DarkPurple)
+            ) {
+                Text(text = "Submit", fontSize = 18.sp, fontWeight = FontWeight.Bold)
+            }
         }
     }
 }
 
-// Composable terpisah untuk TextField agar lebih rapi
+
+// --- Composable lainnya tidak berubah ---
+
 @Composable
 fun FormTextField(label: String, value: String, placeholder: String, onValueChange: (String) -> Unit) {
     Text(text = label, fontWeight = FontWeight.Bold, color = LabelColor, fontSize = 14.sp)
@@ -124,15 +136,14 @@ fun FormTextField(label: String, value: String, placeholder: String, onValueChan
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(8.dp),
         colors = OutlinedTextFieldDefaults.colors(
-            unfocusedBorderColor = Color.Gray.copy(alpha = 0.5f), // Garis bawah saat tidak fokus
-            focusedBorderColor = DarkPurple, // Garis bawah saat fokus
-            focusedContainerColor = Color.Transparent, // Background transparan
-            unfocusedContainerColor = Color.Transparent // Background transparan
+            unfocusedBorderColor = Color.Gray.copy(alpha = 0.5f),
+            focusedBorderColor = DarkPurple,
+            focusedContainerColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent
         )
     )
 }
 
-// Composable terpisah untuk grup RadioButton
 @Composable
 fun FormRadioGroup(label: String, options: List<String>, selectedOption: String, onOptionSelected: (String) -> Unit) {
     Text(text = label, fontWeight = FontWeight.Bold, color = LabelColor, fontSize = 14.sp)
